@@ -1,0 +1,40 @@
+# GraphQL schema example
+#
+# https://gqlgen.com/getting-started/
+scalar Time
+
+type Users {
+	id: Int!
+	CompanyID: Int!
+	Email: String!
+	Password: String!
+	VerifiedEmail: Int
+	Status: String
+	Name: String!
+	Phone: String
+	Mobile: String
+	JobTitle: String 
+	ImageStorageID: Int        
+	LastLogin: Time          
+	CreatedAt: Time          
+	UpdatedAt: Time            
+	DeletedAt: Time            
+	IsNotifPaymentReturn: Int  
+	Campaign: Int              
+	IDToken: String              
+  	LoginInToken: String         
+}
+
+type User2 @key(fields: "id") {
+    id: ID!
+    username: String!
+}
+
+
+extend type Query {
+  	getAllUsers: [Users]
+}
+
+type Mutation {
+  	createTodo(input: String!): String!
+}

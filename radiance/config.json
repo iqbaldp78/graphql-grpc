@@ -1,0 +1,9 @@
+{
+    "SERVER_PORT": 8010,
+    "DB_USER": "root",
+    "DB_PASSWORD": "root",
+    "DB_HOST": "localhost",
+    "DB_PORT": "33068",
+    "DB_NAME": "dmp",
+    "DB_TYPE": "mysql"
+}

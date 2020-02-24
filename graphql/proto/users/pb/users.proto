@@ -1,0 +1,93 @@
+syntax = "proto3";
+package pb;
+
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/any.proto";
+import "google/protobuf/empty.proto";
+
+message Users{
+    int64 ID = 1;                    
+    int64 CompanyID = 2;            
+	string Email = 3;               
+	string Password = 4;               
+	int32 VerifiedEmail = 5;         
+	string Status = 6;             
+	string Name = 7;                  
+	string Phone = 8;                
+	string Mobile = 9;                
+	string JobTitle = 10;              
+	int64 ImageStorageID = 11;        
+	google.protobuf.Timestamp LastLogin = 12;             
+	google.protobuf.Timestamp CreatedAt = 13;              
+	google.protobuf.Timestamp UpdatedAt = 14;            
+	google.protobuf.Timestamp DeletedAt = 15;            
+	int32 IsNotifPaymentReturn = 16;  
+	int64 Campaign = 17;              
+	string IDToken = 18;              
+    google.protobuf.Any LoginInToken = 19;         
+	repeated StorageData StorageData = 20;            
+	RequestorData RequestorData = 21;      
+	repeated DepartmentApproverData DepartmentApproverData = 22;
+	repeated CategoryApproverData CategoryApproverData = 23;  
+	EprocData EprocData = 24;      
+
+	// // Declare has many relation
+	// UsrRoles       []UserRoles       `gorm:"foreignkey:UserID" json:"user_roles,omitempty"`
+	// UsrDepartments []UserDepartments `gorm:"foreignkey:UserID" json:"user_departments"`
+	// Apprvs         []Approvers       `gorm:"foreignkey:UserID" json:"approvers,omitempty"`
+
+	// // Declare belongs to relation
+	// Company *Companies `gorm:"foreignkey:CompanyID" json:"company,omitempty"`
+}
+
+message StorageData {
+    string Size = 1;
+	string Type = 2;
+	string Path = 3;
+}
+
+message RequestorData {
+	int64 ApproverID = 1; 
+	int64 CompanyID = 2;
+	int64 UserID = 3;      
+	int64 DepartmentID = 4; 
+	int64 Status = 5;     
+}
+
+message DepartmentApproverData {
+	int64 ID = 1;           
+	int64 ApproverID = 2;    
+	int64 CompanyID = 3;      
+	int64 UserID = 4;        
+	int64 DepartmentID = 5;
+	float MinTransaction = 6;
+	float MaxTransaction = 7;
+	int32 Level = 8;             
+	int32 Status = 9;            
+}
+
+message CategoryApproverData {
+	int64 ID = 1; 
+	int64 ApproverID = 2; 
+	int64 CompanyID = 3;
+	int64 UserID = 4;
+	int64 CategoryID = 5;
+	int32 Status = 6;
+}
+
+message EprocData {
+	int64 ID = 1;
+	int64 ApproverID =2;
+	int64 CompanyID = 3;
+	int64 UserID = 4;
+	int32 Level = 5;
+	int32 Status = 6;
+}
+
+message RespUserData {
+    repeated Users Data = 1;
+}
+
+service RadianceServices {
+	rpc GetAllUsers (google.protobuf.Empty) returns (RespUserData) {}
+}
