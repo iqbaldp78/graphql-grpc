@@ -10,6 +10,7 @@ import (
 	empty "github.com/golang/protobuf/ptypes/empty"
 	_ "github.com/golang/protobuf/ptypes/timestamp"
 	math "math"
+	_ "proto/rfqs/pb"
 )
 
 import (
@@ -38,6 +39,7 @@ var _ server.Option
 
 type RadianceServicesService interface {
 	GetAllUsers(ctx context.Context, in *empty.Empty, opts ...client.CallOption) (*RespUserData, error)
+	GetUserNRfqs(ctx context.Context, in *empty.Empty, opts ...client.CallOption) (*RespUserData, error)
 }
 
 type radianceServicesService struct {
@@ -62,15 +64,27 @@ func (c *radianceServicesService) GetAllUsers(ctx context.Context, in *empty.Emp
 	return out, nil
 }
 
+func (c *radianceServicesService) GetUserNRfqs(ctx context.Context, in *empty.Empty, opts ...client.CallOption) (*RespUserData, error) {
+	req := c.c.NewRequest(c.name, "RadianceServices.GetUserNRfqs", in)
+	out := new(RespUserData)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // Server API for RadianceServices service
 
 type RadianceServicesHandler interface {
 	GetAllUsers(context.Context, *empty.Empty, *RespUserData) error
+	GetUserNRfqs(context.Context, *empty.Empty, *RespUserData) error
 }
 
 func RegisterRadianceServicesHandler(s server.Server, hdlr RadianceServicesHandler, opts ...server.HandlerOption) error {
 	type radianceServices interface {
 		GetAllUsers(ctx context.Context, in *empty.Empty, out *RespUserData) error
+		GetUserNRfqs(ctx context.Context, in *empty.Empty, out *RespUserData) error
 	}
 	type RadianceServices struct {
 		radianceServices
@@ -85,4 +99,8 @@ type radianceServicesHandler struct {
 
 func (h *radianceServicesHandler) GetAllUsers(ctx context.Context, in *empty.Empty, out *RespUserData) error {
 	return h.RadianceServicesHandler.GetAllUsers(ctx, in, out)
+}
+
+func (h *radianceServicesHandler) GetUserNRfqs(ctx context.Context, in *empty.Empty, out *RespUserData) error {
+	return h.RadianceServicesHandler.GetUserNRfqs(ctx, in, out)
 }

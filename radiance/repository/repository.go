@@ -23,7 +23,7 @@ func (s *Service) GetAllUsers(ctx context.Context, in *empty.Empty, out *pb.Resp
 	log.Println("GetAllUsers received .....")
 	users := []models.Users{}
 	pbUsers := []*pb.Users{}
-	s.DB.Debug().Limit(10000).Find(&users)
+	s.DB.Debug().Find(&users)
 	copier.Copy(&pbUsers, &users)
 
 	for i := range users {
@@ -44,5 +44,10 @@ func (s *Service) GetAllUsers(ctx context.Context, in *empty.Empty, out *pb.Resp
 
 	}
 	out.Data = pbUsers
+	return nil
+}
+
+//GetUserNRfqs --
+func (s *Service) GetUserNRfqs(ctx context.Context, in *empty.Empty, out *pb.RespUserData) error {
 	return nil
 }
