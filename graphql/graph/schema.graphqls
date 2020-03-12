@@ -1,9 +1,9 @@
 # GraphQL schema example
 #
 # https://gqlgen.com/getting-started/
-scalar Time
+scalar Time 
 
-type Users {
+type Users @key(fields: "id"){
 	id: Int!
 	CompanyID: Int!
 	Email: String!
@@ -18,21 +18,48 @@ type Users {
 	LastLogin: Time          
 	CreatedAt: Time          
 	UpdatedAt: Time            
-	DeletedAt: Time            
-	IsNotifPaymentReturn: Int  
-	Campaign: Int              
-	IDToken: String              
-  	LoginInToken: String         
+	DeletedAt: Time
+	IsNotifPaymentReturn: Int
+	Campaign: Int
+	IDToken: String
+	Rfqs : [Rfqs!]!
 }
 
-type User2 @key(fields: "id") {
-    id: ID!
-    username: String!
-}
+type Rfqs {
+	ID: Int!
+	TransactionID: Int!
+	RequestedBy: Int!
+	CreatedBy: Int!
 
+	PaymentType: Int!
+	PaymentDuration: Int!
+	CompanyBuyerID: Int!
+	CompanySellerID: Int!
+
+	RfqNo: String!
+	ReferenceNo: String!
+	Notes: String!
+	NoteForSeller: String!
+
+	SubTotal: Float!
+	TaxBasis: Float!
+	Ppn: Float!
+	Pph: Float!
+	Rounding: Float!
+	GrandTotal: Float!
+
+	Status: Int!
+	StatusReason: String!
+	
+	ExpiredAt: Time          
+	CreatedAt: Time          
+	UpdatedAt: Time            
+	DeletedAt: Time 
+}
 
 extend type Query {
   	getAllUsers: [Users]
+	getUserNRfqs: [Users]
 }
 
 type Mutation {

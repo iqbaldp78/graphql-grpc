@@ -39,13 +39,13 @@ func (ec *executionContext) __resolve_entities(ctx context.Context, representati
 		}
 		switch typeName {
 
-		case "Users":
-			id0, err := ec.unmarshalNInt2int(ctx, rep["id"])
+		case "Rfqs":
+			id0, err := ec.unmarshalNInt2int(ctx, rep["ID"])
 			if err != nil {
-				return nil, errors.New(fmt.Sprintf("Field %s undefined in schema.", "id"))
+				return nil, errors.New(fmt.Sprintf("Field %s undefined in schema.", "ID"))
 			}
 
-			entity, err := ec.resolvers.Entity().FindUsersByID(ctx,
+			entity, err := ec.resolvers.Entity().FindRfqsByID(ctx,
 				id0)
 			if err != nil {
 				return nil, err

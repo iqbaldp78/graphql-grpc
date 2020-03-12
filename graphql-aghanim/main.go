@@ -7,18 +7,18 @@ import (
 	"github.com/micro/go-micro/v2/client"
 	"github.com/micro/go-micro/v2/web"
 
-	"github.com/mbizmarket/dmp/graphql/graph"
-	"github.com/mbizmarket/dmp/graphql/graph/generated"
-	pb"github.com/mbizmarket/dmp/graphql/proto/pb/user"
+	"github.com/mbizmarket/dmp/graphql-aghanim/graph"
+	"github.com/mbizmarket/dmp/graphql-aghanim/graph/generated"
+	"github.com/mbizmarket/dmp/graphql-aghanim/proto/rfqs/pb"
 )
 
 func main() {
 
 	// create new web service
 	service := web.NewService(
-		web.Name("go.dmp.service.api.graphql"),
+		web.Name("go.dmp.service.api.graphql.aghanim"),
 		web.Version("latest"),
-		web.Address(":8080"),
+		web.Address(":8083"),
 	)
 
 	// initialise service
@@ -27,12 +27,12 @@ func main() {
 	}
 
 	// RPC client
-	clientRadiance := pb.NewRadianceServicesService("go.dmp.service.grpc.radiance", client.DefaultClient)
+	clientAghanim := pb.NewAghanimServicesService("go.dmp.service.grpc.aghanim", client.DefaultClient)
 
 	// register graphql handlers
 	service.Handle("/", handler.Playground("GraphQL playground", "/query"))
 	service.Handle("/query", handler.GraphQL(generated.NewExecutableSchema(generated.Config{Resolvers: &graph.Resolver{
-		ResolverClientRadiance: clientRadiance,
+		ResolverClientAghanim: clientAghanim,
 	}})))
 
 	// run service

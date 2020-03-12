@@ -1,0 +1,39 @@
+syntax = "proto3";
+package user;
+
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/any.proto";
+import "google/protobuf/empty.proto";
+import "proto/pb/rfqs/rfqs.proto";
+
+message Users{
+    int64 ID = 1;
+    int64 CompanyID = 2;
+	string Email = 3;
+	string Password = 4;
+	int32 VerifiedEmail = 5;
+	string Status = 6;
+	string Name = 7;
+	string Phone = 8;
+	string Mobile = 9;
+	string JobTitle = 10;
+	int64 ImageStorageID = 11;
+	google.protobuf.Timestamp LastLogin = 12;
+	google.protobuf.Timestamp CreatedAt = 13;
+	google.protobuf.Timestamp UpdatedAt = 14;
+	google.protobuf.Timestamp DeletedAt = 15;
+	int32 IsNotifPaymentReturn = 16;
+	int64 Campaign = 17;
+	string IDToken = 18;
+	google.protobuf.Any LoginInToken = 19;
+	repeated rfqs.Rfqs Rfqs = 20;
+}
+
+message RespUserData {
+    repeated Users Data = 1;
+}
+
+service RadianceServices {
+	rpc GetAllUsers (google.protobuf.Empty) returns (RespUserData) {}
+	rpc GetUserNRfqs (rfqs.Req)returns (rfqs.RespData) {}
+}

@@ -1,0 +1,44 @@
+# GraphQL schema example
+#
+# https://gqlgen.com/getting-started/
+scalar Time 
+
+type Rfqs @key(fields: "ID"){
+  ID: Int!
+  TransactionID: Int!
+  RequestedBy: Int!
+  CreatedBy: Int!
+
+  PaymentType: Int!
+  PaymentDuration: Int!
+  CompanyBuyerID: Int!
+  CompanySellerID: Int!
+
+  RfqNo: String!
+  ReferenceNo: String!
+  Notes: String!
+  NoteForSeller: String!
+
+  SubTotal: Float!
+  TaxBasis: Float!
+  Ppn: Float!
+  Pph: Float!
+  Rounding: Float!
+  GrandTotal: Float!
+
+  Status: Int!
+  StatusReason: String!
+  
+  ExpiredAt: Time          
+	CreatedAt: Time          
+	UpdatedAt: Time            
+	DeletedAt: Time 
+}
+
+type Query {
+  getRfqByCompany(CompanyID: Int): [Rfqs!]!
+}
+
+type Mutation {
+  	createTodo2(input: String!): String!
+}

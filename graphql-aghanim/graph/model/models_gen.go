@@ -33,26 +33,4 @@ type Rfqs struct {
 	DeletedAt       *time.Time `json:"DeletedAt"`
 }
 
-type Users struct {
-	ID                   int        `json:"id"`
-	CompanyID            int        `json:"CompanyID"`
-	Email                string     `json:"Email"`
-	Password             string     `json:"Password"`
-	VerifiedEmail        *int       `json:"VerifiedEmail"`
-	Status               *string    `json:"Status"`
-	Name                 string     `json:"Name"`
-	Phone                *string    `json:"Phone"`
-	Mobile               *string    `json:"Mobile"`
-	JobTitle             *string    `json:"JobTitle"`
-	ImageStorageID       *int       `json:"ImageStorageID"`
-	LastLogin            *time.Time `json:"LastLogin"`
-	CreatedAt            *time.Time `json:"CreatedAt"`
-	UpdatedAt            *time.Time `json:"UpdatedAt"`
-	DeletedAt            *time.Time `json:"DeletedAt"`
-	IsNotifPaymentReturn *int       `json:"IsNotifPaymentReturn"`
-	Campaign             *int       `json:"Campaign"`
-	IDToken              *string    `json:"IDToken"`
-	Rfqs                 []*Rfqs    `json:"Rfqs"`
-}
-
-func (Users) IsEntity() {}
+func (Rfqs) IsEntity() {}

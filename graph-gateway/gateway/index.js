@@ -4,13 +4,13 @@ const { ApolloGateway } = require("@apollo/gateway");
 const gateway = new ApolloGateway({
     serviceList: [
         { name: 'radiance', url: 'http://localhost:8080/query' },
-        // { name: 'accounts', url: 'http://localhost:4001/query' }
+        { name: 'aghanim', url: 'http://localhost:8083/query' }
     ],
 });
 
 const server = new ApolloServer({
     gateway,
-
+    tracing: true,
     subscriptions: false,
 });
 

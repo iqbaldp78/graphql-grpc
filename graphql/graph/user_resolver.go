@@ -2,63 +2,120 @@ package graph
 
 import (
 	"context"
-	"fmt"
+	"log"
 	"time"
 
-	"github.com/golang/protobuf/ptypes"
-	"github.com/mbizmarket/dmp/graphql/graph/generated"
-	"github.com/mbizmarket/dmp/graphql/proto/users/pb"
+	"github.com/golang/protobuf/ptypes/empty"
+	"github.com/mbizmarket/dmp/graphql/graph/model"
+	"github.com/mbizmarket/dmp/graphql/helper"
+
+	pbRfqs "github.com/mbizmarket/dmp/graphql/proto/pb/rfqs"
 )
 
-type usersResolver struct{ *Resolver }
+func (r *queryResolver) GetAllUsers(ctx context.Context) ([]*model.Users, error) {
+	var output []*model.Users
 
-//Users --
-func (r *Resolver) Users() generated.UsersResolver { return &usersResolver{r} }
-
-func (r *usersResolver) LastLogin(ctx context.Context, obj *pb.Users) (*time.Time, error) {
-	if obj.LastLogin == nil {
-		return nil, nil
-	}
-	data, err := ptypes.Timestamp(obj.LastLogin)
+	res, err := r.ResolverClientRadiance.GetAllUsers(context.Background(), &empty.Empty{})
 	if err != nil {
-		return nil, err
+		log.Println("err nya ", err)
+		return output, err
 	}
-	return &data, nil
+
+	for _, v := range res.Data {
+		out := &model.Users{
+			ID:                   int(v.ID),
+			CompanyID:            int(v.CompanyID),
+			Email:                v.Email,
+			Password:             v.Password,
+			VerifiedEmail:        helper.IntToPointerInt(v.VerifiedEmail),
+			Status:               &v.Status,
+			Name:                 v.Name,
+			Phone:                &v.Phone,
+			Mobile:               &v.Mobile,
+			JobTitle:             &v.JobTitle,
+			ImageStorageID:       helper.IntToPointerInt(v.ImageStorageID),
+			IsNotifPaymentReturn: helper.IntToPointerInt(v.IsNotifPaymentReturn),
+			Campaign:             helper.IntToPointerInt(v.Campaign),
+			IDToken:              &v.IDToken,
+			LastLogin:            helper.TimestampProtoToPointerTime(v.LastLogin),
+			CreatedAt:            helper.TimestampProtoToPointerTime(v.CreatedAt),
+			UpdatedAt:            helper.TimestampProtoToPointerTime(v.UpdatedAt),
+		}
+		output = append(output, out)
+	}
+	return output, nil
 }
 
-func (r *usersResolver) CreatedAt(ctx context.Context, obj *pb.Users) (*time.Time, error) {
-	if obj.CreatedAt == nil {
-		return nil, nil
-	}
-	data, err := ptypes.Timestamp(obj.CreatedAt)
-	if err != nil {
-		return nil, err
-	}
-	return &data, nil
-}
+func (r *queryResolver) GetUserNRfqs(ctx context.Context) ([]*model.Users, error) {
+	var output []*model.Users
+	ctx, cancel := context.WithTimeout(context.Background(), 24*time.Hour)
+	defer cancel()
 
-func (r *usersResolver) UpdatedAt(ctx context.Context, obj *pb.Users) (*time.Time, error) {
-	if obj.UpdatedAt == nil {
-		return nil, nil
-	}
-	data, err := ptypes.Timestamp(obj.UpdatedAt)
+	res, err := r.ResolverClientRadiance.GetAllUsers(context.Background(), &empty.Empty{})
 	if err != nil {
-		return nil, err
+		log.Println("err nya radiance ", err)
+		return output, err
 	}
-	return &data, nil
-}
 
-func (r *usersResolver) DeletedAt(ctx context.Context, obj *pb.Users) (*time.Time, error) {
-	if obj.DeletedAt == nil {
-		return nil, nil
-	}
-	data, err := ptypes.Timestamp(obj.DeletedAt)
-	if err != nil {
-		return nil, err
-	}
-	return &data, nil
-}
+	for _, v := range res.Data {
+		rfqs, err := r.ResolverClientRadiance.GetUserNRfqs(ctx, &pbRfqs.Req{ID: v.CompanyID})
 
-func (r *usersResolver) LoginInToken(ctx context.Context, obj *pb.Users) (*string, error) {
-	panic(fmt.Errorf("not implemented"))
+		if err != nil {
+			log.Println("err nya GetUserNRfqs", err)
+			return output, err
+		}
+		out := &model.Users{
+			ID:                   int(v.ID),
+			CompanyID:            int(v.CompanyID),
+			Email:                v.Email,
+			Password:             v.Password,
+			VerifiedEmail:        helper.IntToPointerInt(v.VerifiedEmail),
+			Status:               &v.Status,
+			Name:                 v.Name,
+			Phone:                &v.Phone,
+			Mobile:               &v.Mobile,
+			JobTitle:             &v.JobTitle,
+			ImageStorageID:       helper.IntToPointerInt(v.ImageStorageID),
+			IsNotifPaymentReturn: helper.IntToPointerInt(v.IsNotifPaymentReturn),
+			Campaign:             helper.IntToPointerInt(v.Campaign),
+			IDToken:              &v.IDToken,
+			LastLogin:            helper.TimestampProtoToPointerTime(v.LastLogin),
+			CreatedAt:            helper.TimestampProtoToPointerTime(v.CreatedAt),
+			UpdatedAt:            helper.TimestampProtoToPointerTime(v.UpdatedAt),
+		}
+
+		var outputRfqs []*model.Rfqs
+		for _, val := range rfqs.Data {
+			tempRfqs := &model.Rfqs{
+				ID:              int(val.ID),
+				TransactionID:   int(val.TransactionId),
+				RequestedBy:     int(val.RequestedBy),
+				CreatedBy:       int(val.CreatedBy),
+				PaymentType:     int(val.PaymentType),
+				PaymentDuration: int(val.PaymentDuration),
+				CompanyBuyerID:  int(val.CompanyBuyerId),
+				CompanySellerID: int(val.CompanySellerId),
+				RfqNo:           val.RfqNo,
+				ReferenceNo:     val.ReferenceNo,
+				Notes:           val.Notes,
+				NoteForSeller:   val.NoteForSeller,
+				SubTotal:        float64(val.SubTotal),
+				TaxBasis:        float64(val.TaxBasis),
+				Ppn:             float64(val.Ppn),
+				Pph:             float64(val.Pph),
+				Rounding:        float64(val.Rounding),
+				GrandTotal:      float64(val.GrandTotal),
+				Status:          int(val.Status),
+				StatusReason:    val.StatusReason,
+				ExpiredAt:       helper.TimestampProtoToPointerTime(val.ExpiredAt),
+				CreatedAt:       helper.TimestampProtoToPointerTime(val.CreatedAt),
+				UpdatedAt:       helper.TimestampProtoToPointerTime(val.UpdatedAt),
+				DeletedAt:       helper.TimestampProtoToPointerTime(val.DeletedAt),
+			}
+			outputRfqs = append(outputRfqs, tempRfqs)
+		}
+		out.Rfqs = outputRfqs
+		output = append(output, out)
+	}
+	return output, nil
 }
