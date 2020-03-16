@@ -10,7 +10,7 @@ import (
 	"github.com/micro/cli/v2"
 	"github.com/micro/go-micro/v2"
 
-	"github.com/mbizmarket/dmp/aghanim/proto/rfqs/pb"
+	pb "github.com/mbizmarket/dmp/aghanim/proto/pb/rfqs"
 	"github.com/mbizmarket/dmp/aghanim/repository"
 	"github.com/mbizmarket/dmp/aghanim/utils"
 )

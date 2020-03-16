@@ -7,15 +7,11 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/mbizmarket/dmp/graphql-aghanim/graph/generated"
 	"github.com/mbizmarket/dmp/graphql-aghanim/graph/model"
 )
 
 func (r *entityResolver) FindRfqsByID(ctx context.Context, id int) (*model.Rfqs, error) {
 	panic(fmt.Errorf("not implemented"))
 }
-
-// Entity returns generated.EntityResolver implementation.
-func (r *Resolver) Entity() generated.EntityResolver { return &entityResolver{r} }
 
 type entityResolver struct{ *Resolver }

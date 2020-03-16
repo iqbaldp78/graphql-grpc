@@ -9,7 +9,7 @@ import (
 
 	"github.com/mbizmarket/dmp/graphql/graph"
 	"github.com/mbizmarket/dmp/graphql/graph/generated"
-	pb"github.com/mbizmarket/dmp/graphql/proto/pb/user"
+	pb "github.com/mbizmarket/dmp/graphql/proto/pb/user"
 )
 
 func main() {
@@ -38,7 +38,6 @@ func main() {
 	// run service
 	if err := service.Run(); err != nil {
 		log.Fatal(err)
-
 	}
 
 }

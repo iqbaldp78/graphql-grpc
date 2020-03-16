@@ -10,6 +10,10 @@ import (
 	"github.com/mbizmarket/dmp/graphql/graph/model"
 )
 
+func (r *entityResolver) FindRfqByID(ctx context.Context, id int) (*model.Rfq, error) {
+	panic(fmt.Errorf("not implemented"))
+}
+
 func (r *entityResolver) FindUsersByID(ctx context.Context, id int) (*model.Users, error) {
 	panic(fmt.Errorf("not implemented"))
 }

@@ -1,5 +1,7 @@
 syntax = "proto3";
-package pb;
+package rfqs;
+
+option go_package = "github.com/mbizmarket/dmp/radiance/proto/pb/rfqs";
 
 import "google/protobuf/timestamp.proto";
 

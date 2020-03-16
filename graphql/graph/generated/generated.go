@@ -48,6 +48,7 @@ type DirectiveRoot struct {
 
 type ComplexityRoot struct {
 	Entity struct {
+		FindRfqByID   func(childComplexity int, id int) int
 		FindUsersByID func(childComplexity int, id int) int
 	}
 
@@ -62,7 +63,7 @@ type ComplexityRoot struct {
 		__resolve_entities func(childComplexity int, representations []map[string]interface{}) int
 	}
 
-	Rfqs struct {
+	Rfq struct {
 		CompanyBuyerID  func(childComplexity int) int
 		CompanySellerID func(childComplexity int) int
 		CreatedAt       func(childComplexity int) int
@@ -117,6 +118,7 @@ type ComplexityRoot struct {
 }
 
 type EntityResolver interface {
+	FindRfqByID(ctx context.Context, id int) (*model.Rfq, error)
 	FindUsersByID(ctx context.Context, id int) (*model.Users, error)
 }
 type MutationResolver interface {
@@ -141,6 +143,18 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 	ec := executionContext{nil, e}
 	_ = ec
 	switch typeName + "." + field {
+
+	case "Entity.findRfqByID":
+		if e.complexity.Entity.FindRfqByID == nil {
+			break
+		}
+
+		args, err := ec.field_Entity_findRfqByID_args(context.TODO(), rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Entity.FindRfqByID(childComplexity, args["ID"].(int)), true
 
 	case "Entity.findUsersByID":
 		if e.complexity.Entity.FindUsersByID == nil {
@@ -199,173 +213,173 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.Query.__resolve_entities(childComplexity, args["representations"].([]map[string]interface{})), true
 
-	case "Rfqs.CompanyBuyerID":
-		if e.complexity.Rfqs.CompanyBuyerID == nil {
+	case "Rfq.CompanyBuyerID":
+		if e.complexity.Rfq.CompanyBuyerID == nil {
 			break
 		}
 
-		return e.complexity.Rfqs.CompanyBuyerID(childComplexity), true
+		return e.complexity.Rfq.CompanyBuyerID(childComplexity), true
 
-	case "Rfqs.CompanySellerID":
-		if e.complexity.Rfqs.CompanySellerID == nil {
+	case "Rfq.CompanySellerID":
+		if e.complexity.Rfq.CompanySellerID == nil {
 			break
 		}
 
-		return e.complexity.Rfqs.CompanySellerID(childComplexity), true
+		return e.complexity.Rfq.CompanySellerID(childComplexity), true
 
-	case "Rfqs.CreatedAt":
-		if e.complexity.Rfqs.CreatedAt == nil {
+	case "Rfq.CreatedAt":
+		if e.complexity.Rfq.CreatedAt == nil {
 			break
 		}
 
-		return e.complexity.Rfqs.CreatedAt(childComplexity), true
+		return e.complexity.Rfq.CreatedAt(childComplexity), true
 
-	case "Rfqs.CreatedBy":
-		if e.complexity.Rfqs.CreatedBy == nil {
+	case "Rfq.CreatedBy":
+		if e.complexity.Rfq.CreatedBy == nil {
 			break
 		}
 
-		return e.complexity.Rfqs.CreatedBy(childComplexity), true
+		return e.complexity.Rfq.CreatedBy(childComplexity), true
 
-	case "Rfqs.DeletedAt":
-		if e.complexity.Rfqs.DeletedAt == nil {
+	case "Rfq.DeletedAt":
+		if e.complexity.Rfq.DeletedAt == nil {
 			break
 		}
 
-		return e.complexity.Rfqs.DeletedAt(childComplexity), true
+		return e.complexity.Rfq.DeletedAt(childComplexity), true
 
-	case "Rfqs.ExpiredAt":
-		if e.complexity.Rfqs.ExpiredAt == nil {
+	case "Rfq.ExpiredAt":
+		if e.complexity.Rfq.ExpiredAt == nil {
 			break
 		}
 
-		return e.complexity.Rfqs.ExpiredAt(childComplexity), true
+		return e.complexity.Rfq.ExpiredAt(childComplexity), true
 
-	case "Rfqs.GrandTotal":
-		if e.complexity.Rfqs.GrandTotal == nil {
+	case "Rfq.GrandTotal":
+		if e.complexity.Rfq.GrandTotal == nil {
 			break
 		}
 
-		return e.complexity.Rfqs.GrandTotal(childComplexity), true
+		return e.complexity.Rfq.GrandTotal(childComplexity), true
 
-	case "Rfqs.ID":
-		if e.complexity.Rfqs.ID == nil {
+	case "Rfq.ID":
+		if e.complexity.Rfq.ID == nil {
 			break
 		}
 
-		return e.complexity.Rfqs.ID(childComplexity), true
+		return e.complexity.Rfq.ID(childComplexity), true
 
-	case "Rfqs.NoteForSeller":
-		if e.complexity.Rfqs.NoteForSeller == nil {
+	case "Rfq.NoteForSeller":
+		if e.complexity.Rfq.NoteForSeller == nil {
 			break
 		}
 
-		return e.complexity.Rfqs.NoteForSeller(childComplexity), true
+		return e.complexity.Rfq.NoteForSeller(childComplexity), true
 
-	case "Rfqs.Notes":
-		if e.complexity.Rfqs.Notes == nil {
+	case "Rfq.Notes":
+		if e.complexity.Rfq.Notes == nil {
 			break
 		}
 
-		return e.complexity.Rfqs.Notes(childComplexity), true
+		return e.complexity.Rfq.Notes(childComplexity), true
 
-	case "Rfqs.PaymentDuration":
-		if e.complexity.Rfqs.PaymentDuration == nil {
+	case "Rfq.PaymentDuration":
+		if e.complexity.Rfq.PaymentDuration == nil {
 			break
 		}
 
-		return e.complexity.Rfqs.PaymentDuration(childComplexity), true
+		return e.complexity.Rfq.PaymentDuration(childComplexity), true
 
-	case "Rfqs.PaymentType":
-		if e.complexity.Rfqs.PaymentType == nil {
+	case "Rfq.PaymentType":
+		if e.complexity.Rfq.PaymentType == nil {
 			break
 		}
 
-		return e.complexity.Rfqs.PaymentType(childComplexity), true
+		return e.complexity.Rfq.PaymentType(childComplexity), true
 
-	case "Rfqs.Pph":
-		if e.complexity.Rfqs.Pph == nil {
+	case "Rfq.Pph":
+		if e.complexity.Rfq.Pph == nil {
 			break
 		}
 
-		return e.complexity.Rfqs.Pph(childComplexity), true
+		return e.complexity.Rfq.Pph(childComplexity), true
 
-	case "Rfqs.Ppn":
-		if e.complexity.Rfqs.Ppn == nil {
+	case "Rfq.Ppn":
+		if e.complexity.Rfq.Ppn == nil {
 			break
 		}
 
-		return e.complexity.Rfqs.Ppn(childComplexity), true
+		return e.complexity.Rfq.Ppn(childComplexity), true
 
-	case "Rfqs.ReferenceNo":
-		if e.complexity.Rfqs.ReferenceNo == nil {
+	case "Rfq.ReferenceNo":
+		if e.complexity.Rfq.ReferenceNo == nil {
 			break
 		}
 
-		return e.complexity.Rfqs.ReferenceNo(childComplexity), true
+		return e.complexity.Rfq.ReferenceNo(childComplexity), true
 
-	case "Rfqs.RequestedBy":
-		if e.complexity.Rfqs.RequestedBy == nil {
+	case "Rfq.RequestedBy":
+		if e.complexity.Rfq.RequestedBy == nil {
 			break
 		}
 
-		return e.complexity.Rfqs.RequestedBy(childComplexity), true
+		return e.complexity.Rfq.RequestedBy(childComplexity), true
 
-	case "Rfqs.RfqNo":
-		if e.complexity.Rfqs.RfqNo == nil {
+	case "Rfq.RfqNo":
+		if e.complexity.Rfq.RfqNo == nil {
 			break
 		}
 
-		return e.complexity.Rfqs.RfqNo(childComplexity), true
+		return e.complexity.Rfq.RfqNo(childComplexity), true
 
-	case "Rfqs.Rounding":
-		if e.complexity.Rfqs.Rounding == nil {
+	case "Rfq.Rounding":
+		if e.complexity.Rfq.Rounding == nil {
 			break
 		}
 
-		return e.complexity.Rfqs.Rounding(childComplexity), true
+		return e.complexity.Rfq.Rounding(childComplexity), true
 
-	case "Rfqs.Status":
-		if e.complexity.Rfqs.Status == nil {
+	case "Rfq.Status":
+		if e.complexity.Rfq.Status == nil {
 			break
 		}
 
-		return e.complexity.Rfqs.Status(childComplexity), true
+		return e.complexity.Rfq.Status(childComplexity), true
 
-	case "Rfqs.StatusReason":
-		if e.complexity.Rfqs.StatusReason == nil {
+	case "Rfq.StatusReason":
+		if e.complexity.Rfq.StatusReason == nil {
 			break
 		}
 
-		return e.complexity.Rfqs.StatusReason(childComplexity), true
+		return e.complexity.Rfq.StatusReason(childComplexity), true
 
-	case "Rfqs.SubTotal":
-		if e.complexity.Rfqs.SubTotal == nil {
+	case "Rfq.SubTotal":
+		if e.complexity.Rfq.SubTotal == nil {
 			break
 		}
 
-		return e.complexity.Rfqs.SubTotal(childComplexity), true
+		return e.complexity.Rfq.SubTotal(childComplexity), true
 
-	case "Rfqs.TaxBasis":
-		if e.complexity.Rfqs.TaxBasis == nil {
+	case "Rfq.TaxBasis":
+		if e.complexity.Rfq.TaxBasis == nil {
 			break
 		}
 
-		return e.complexity.Rfqs.TaxBasis(childComplexity), true
+		return e.complexity.Rfq.TaxBasis(childComplexity), true
 
-	case "Rfqs.TransactionID":
-		if e.complexity.Rfqs.TransactionID == nil {
+	case "Rfq.TransactionID":
+		if e.complexity.Rfq.TransactionID == nil {
 			break
 		}
 
-		return e.complexity.Rfqs.TransactionID(childComplexity), true
+		return e.complexity.Rfq.TransactionID(childComplexity), true
 
-	case "Rfqs.UpdatedAt":
-		if e.complexity.Rfqs.UpdatedAt == nil {
+	case "Rfq.UpdatedAt":
+		if e.complexity.Rfq.UpdatedAt == nil {
 			break
 		}
 
-		return e.complexity.Rfqs.UpdatedAt(childComplexity), true
+		return e.complexity.Rfq.UpdatedAt(childComplexity), true
 
 	case "Users.Campaign":
 		if e.complexity.Users.Campaign == nil {
@@ -595,10 +609,10 @@ type Users @key(fields: "id"){
 	IsNotifPaymentReturn: Int
 	Campaign: Int
 	IDToken: String
-	Rfqs : [Rfqs!]!
+	Rfqs : [Rfq!]!
 }
 
-type Rfqs {
+type Rfq @key(fields: "ID"){
 	ID: Int!
 	TransactionID: Int!
 	RequestedBy: Int!
@@ -650,11 +664,12 @@ directive @extends on OBJECT
 `, BuiltIn: true},
 	&ast.Source{Name: "federation/entity.graphql", Input: `
 # a union of all types that use the @key directive
-union _Entity = Users
+union _Entity = Rfq | Users
 
 # fake type to build resolver interfaces for users to implement
 type Entity {
-		findUsersByID(id: Int!,): Users!
+		findRfqByID(ID: Int!,): Rfq!
+	findUsersByID(id: Int!,): Users!
 
 }
 
@@ -673,6 +688,20 @@ var parsedSchema = gqlparser.MustLoadSchema(sources...)
 // endregion ************************** generated!.gotpl **************************
 
 // region    ***************************** args.gotpl *****************************
+
+func (ec *executionContext) field_Entity_findRfqByID_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+	var err error
+	args := map[string]interface{}{}
+	var arg0 int
+	if tmp, ok := rawArgs["ID"]; ok {
+		arg0, err = ec.unmarshalNInt2int(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["ID"] = arg0
+	return args, nil
+}
 
 func (ec *executionContext) field_Entity_findUsersByID_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
 	var err error
@@ -765,6 +794,47 @@ func (ec *executionContext) field___Type_fields_args(ctx context.Context, rawArg
 // endregion ************************** directives.gotpl **************************
 
 // region    **************************** field.gotpl *****************************
+
+func (ec *executionContext) _Entity_findRfqByID(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:   "Entity",
+		Field:    field,
+		Args:     nil,
+		IsMethod: true,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	rawArgs := field.ArgumentMap(ec.Variables)
+	args, err := ec.field_Entity_findRfqByID_args(ctx, rawArgs)
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	fc.Args = args
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Entity().FindRfqByID(rctx, args["ID"].(int))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.Rfq)
+	fc.Result = res
+	return ec.marshalNRfq2ᚖgithubᚗcomᚋmbizmarketᚋdmpᚋgraphqlᚋgraphᚋmodelᚐRfq(ctx, field.Selections, res)
+}
 
 func (ec *executionContext) _Entity_findUsersByID(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
 	defer func() {
@@ -1054,7 +1124,7 @@ func (ec *executionContext) _Query___schema(ctx context.Context, field graphql.C
 	return ec.marshalO__Schema2ᚖgithubᚗcomᚋ99designsᚋgqlgenᚋgraphqlᚋintrospectionᚐSchema(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) _Rfqs_ID(ctx context.Context, field graphql.CollectedField, obj *model.Rfqs) (ret graphql.Marshaler) {
+func (ec *executionContext) _Rfq_ID(ctx context.Context, field graphql.CollectedField, obj *model.Rfq) (ret graphql.Marshaler) {
 	defer func() {
 		if r := recover(); r != nil {
 			ec.Error(ctx, ec.Recover(ctx, r))
@@ -1062,7 +1132,7 @@ func (ec *executionContext) _Rfqs_ID(ctx context.Context, field graphql.Collecte
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "Rfqs",
+		Object:   "Rfq",
 		Field:    field,
 		Args:     nil,
 		IsMethod: false,
@@ -1088,7 +1158,7 @@ func (ec *executionContext) _Rfqs_ID(ctx context.Context, field graphql.Collecte
 	return ec.marshalNInt2int(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) _Rfqs_TransactionID(ctx context.Context, field graphql.CollectedField, obj *model.Rfqs) (ret graphql.Marshaler) {
+func (ec *executionContext) _Rfq_TransactionID(ctx context.Context, field graphql.CollectedField, obj *model.Rfq) (ret graphql.Marshaler) {
 	defer func() {
 		if r := recover(); r != nil {
 			ec.Error(ctx, ec.Recover(ctx, r))
@@ -1096,7 +1166,7 @@ func (ec *executionContext) _Rfqs_TransactionID(ctx context.Context, field graph
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "Rfqs",
+		Object:   "Rfq",
 		Field:    field,
 		Args:     nil,
 		IsMethod: false,
@@ -1122,7 +1192,7 @@ func (ec *executionContext) _Rfqs_TransactionID(ctx context.Context, field graph
 	return ec.marshalNInt2int(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) _Rfqs_RequestedBy(ctx context.Context, field graphql.CollectedField, obj *model.Rfqs) (ret graphql.Marshaler) {
+func (ec *executionContext) _Rfq_RequestedBy(ctx context.Context, field graphql.CollectedField, obj *model.Rfq) (ret graphql.Marshaler) {
 	defer func() {
 		if r := recover(); r != nil {
 			ec.Error(ctx, ec.Recover(ctx, r))
@@ -1130,7 +1200,7 @@ func (ec *executionContext) _Rfqs_RequestedBy(ctx context.Context, field graphql
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "Rfqs",
+		Object:   "Rfq",
 		Field:    field,
 		Args:     nil,
 		IsMethod: false,
@@ -1156,7 +1226,7 @@ func (ec *executionContext) _Rfqs_RequestedBy(ctx context.Context, field graphql
 	return ec.marshalNInt2int(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) _Rfqs_CreatedBy(ctx context.Context, field graphql.CollectedField, obj *model.Rfqs) (ret graphql.Marshaler) {
+func (ec *executionContext) _Rfq_CreatedBy(ctx context.Context, field graphql.CollectedField, obj *model.Rfq) (ret graphql.Marshaler) {
 	defer func() {
 		if r := recover(); r != nil {
 			ec.Error(ctx, ec.Recover(ctx, r))
@@ -1164,7 +1234,7 @@ func (ec *executionContext) _Rfqs_CreatedBy(ctx context.Context, field graphql.C
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "Rfqs",
+		Object:   "Rfq",
 		Field:    field,
 		Args:     nil,
 		IsMethod: false,
@@ -1190,7 +1260,7 @@ func (ec *executionContext) _Rfqs_CreatedBy(ctx context.Context, field graphql.C
 	return ec.marshalNInt2int(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) _Rfqs_PaymentType(ctx context.Context, field graphql.CollectedField, obj *model.Rfqs) (ret graphql.Marshaler) {
+func (ec *executionContext) _Rfq_PaymentType(ctx context.Context, field graphql.CollectedField, obj *model.Rfq) (ret graphql.Marshaler) {
 	defer func() {
 		if r := recover(); r != nil {
 			ec.Error(ctx, ec.Recover(ctx, r))
@@ -1198,7 +1268,7 @@ func (ec *executionContext) _Rfqs_PaymentType(ctx context.Context, field graphql
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "Rfqs",
+		Object:   "Rfq",
 		Field:    field,
 		Args:     nil,
 		IsMethod: false,
@@ -1224,7 +1294,7 @@ func (ec *executionContext) _Rfqs_PaymentType(ctx context.Context, field graphql
 	return ec.marshalNInt2int(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) _Rfqs_PaymentDuration(ctx context.Context, field graphql.CollectedField, obj *model.Rfqs) (ret graphql.Marshaler) {
+func (ec *executionContext) _Rfq_PaymentDuration(ctx context.Context, field graphql.CollectedField, obj *model.Rfq) (ret graphql.Marshaler) {
 	defer func() {
 		if r := recover(); r != nil {
 			ec.Error(ctx, ec.Recover(ctx, r))
@@ -1232,7 +1302,7 @@ func (ec *executionContext) _Rfqs_PaymentDuration(ctx context.Context, field gra
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "Rfqs",
+		Object:   "Rfq",
 		Field:    field,
 		Args:     nil,
 		IsMethod: false,
@@ -1258,7 +1328,7 @@ func (ec *executionContext) _Rfqs_PaymentDuration(ctx context.Context, field gra
 	return ec.marshalNInt2int(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) _Rfqs_CompanyBuyerID(ctx context.Context, field graphql.CollectedField, obj *model.Rfqs) (ret graphql.Marshaler) {
+func (ec *executionContext) _Rfq_CompanyBuyerID(ctx context.Context, field graphql.CollectedField, obj *model.Rfq) (ret graphql.Marshaler) {
 	defer func() {
 		if r := recover(); r != nil {
 			ec.Error(ctx, ec.Recover(ctx, r))
@@ -1266,7 +1336,7 @@ func (ec *executionContext) _Rfqs_CompanyBuyerID(ctx context.Context, field grap
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "Rfqs",
+		Object:   "Rfq",
 		Field:    field,
 		Args:     nil,
 		IsMethod: false,
@@ -1292,7 +1362,7 @@ func (ec *executionContext) _Rfqs_CompanyBuyerID(ctx context.Context, field grap
 	return ec.marshalNInt2int(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) _Rfqs_CompanySellerID(ctx context.Context, field graphql.CollectedField, obj *model.Rfqs) (ret graphql.Marshaler) {
+func (ec *executionContext) _Rfq_CompanySellerID(ctx context.Context, field graphql.CollectedField, obj *model.Rfq) (ret graphql.Marshaler) {
 	defer func() {
 		if r := recover(); r != nil {
 			ec.Error(ctx, ec.Recover(ctx, r))
@@ -1300,7 +1370,7 @@ func (ec *executionContext) _Rfqs_CompanySellerID(ctx context.Context, field gra
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "Rfqs",
+		Object:   "Rfq",
 		Field:    field,
 		Args:     nil,
 		IsMethod: false,
@@ -1326,7 +1396,7 @@ func (ec *executionContext) _Rfqs_CompanySellerID(ctx context.Context, field gra
 	return ec.marshalNInt2int(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) _Rfqs_RfqNo(ctx context.Context, field graphql.CollectedField, obj *model.Rfqs) (ret graphql.Marshaler) {
+func (ec *executionContext) _Rfq_RfqNo(ctx context.Context, field graphql.CollectedField, obj *model.Rfq) (ret graphql.Marshaler) {
 	defer func() {
 		if r := recover(); r != nil {
 			ec.Error(ctx, ec.Recover(ctx, r))
@@ -1334,7 +1404,7 @@ func (ec *executionContext) _Rfqs_RfqNo(ctx context.Context, field graphql.Colle
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "Rfqs",
+		Object:   "Rfq",
 		Field:    field,
 		Args:     nil,
 		IsMethod: false,
@@ -1360,7 +1430,7 @@ func (ec *executionContext) _Rfqs_RfqNo(ctx context.Context, field graphql.Colle
 	return ec.marshalNString2string(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) _Rfqs_ReferenceNo(ctx context.Context, field graphql.CollectedField, obj *model.Rfqs) (ret graphql.Marshaler) {
+func (ec *executionContext) _Rfq_ReferenceNo(ctx context.Context, field graphql.CollectedField, obj *model.Rfq) (ret graphql.Marshaler) {
 	defer func() {
 		if r := recover(); r != nil {
 			ec.Error(ctx, ec.Recover(ctx, r))
@@ -1368,7 +1438,7 @@ func (ec *executionContext) _Rfqs_ReferenceNo(ctx context.Context, field graphql
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "Rfqs",
+		Object:   "Rfq",
 		Field:    field,
 		Args:     nil,
 		IsMethod: false,
@@ -1394,7 +1464,7 @@ func (ec *executionContext) _Rfqs_ReferenceNo(ctx context.Context, field graphql
 	return ec.marshalNString2string(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) _Rfqs_Notes(ctx context.Context, field graphql.CollectedField, obj *model.Rfqs) (ret graphql.Marshaler) {
+func (ec *executionContext) _Rfq_Notes(ctx context.Context, field graphql.CollectedField, obj *model.Rfq) (ret graphql.Marshaler) {
 	defer func() {
 		if r := recover(); r != nil {
 			ec.Error(ctx, ec.Recover(ctx, r))
@@ -1402,7 +1472,7 @@ func (ec *executionContext) _Rfqs_Notes(ctx context.Context, field graphql.Colle
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "Rfqs",
+		Object:   "Rfq",
 		Field:    field,
 		Args:     nil,
 		IsMethod: false,
@@ -1428,7 +1498,7 @@ func (ec *executionContext) _Rfqs_Notes(ctx context.Context, field graphql.Colle
 	return ec.marshalNString2string(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) _Rfqs_NoteForSeller(ctx context.Context, field graphql.CollectedField, obj *model.Rfqs) (ret graphql.Marshaler) {
+func (ec *executionContext) _Rfq_NoteForSeller(ctx context.Context, field graphql.CollectedField, obj *model.Rfq) (ret graphql.Marshaler) {
 	defer func() {
 		if r := recover(); r != nil {
 			ec.Error(ctx, ec.Recover(ctx, r))
@@ -1436,7 +1506,7 @@ func (ec *executionContext) _Rfqs_NoteForSeller(ctx context.Context, field graph
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "Rfqs",
+		Object:   "Rfq",
 		Field:    field,
 		Args:     nil,
 		IsMethod: false,
@@ -1462,7 +1532,7 @@ func (ec *executionContext) _Rfqs_NoteForSeller(ctx context.Context, field graph
 	return ec.marshalNString2string(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) _Rfqs_SubTotal(ctx context.Context, field graphql.CollectedField, obj *model.Rfqs) (ret graphql.Marshaler) {
+func (ec *executionContext) _Rfq_SubTotal(ctx context.Context, field graphql.CollectedField, obj *model.Rfq) (ret graphql.Marshaler) {
 	defer func() {
 		if r := recover(); r != nil {
 			ec.Error(ctx, ec.Recover(ctx, r))
@@ -1470,7 +1540,7 @@ func (ec *executionContext) _Rfqs_SubTotal(ctx context.Context, field graphql.Co
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "Rfqs",
+		Object:   "Rfq",
 		Field:    field,
 		Args:     nil,
 		IsMethod: false,
@@ -1496,7 +1566,7 @@ func (ec *executionContext) _Rfqs_SubTotal(ctx context.Context, field graphql.Co
 	return ec.marshalNFloat2float64(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) _Rfqs_TaxBasis(ctx context.Context, field graphql.CollectedField, obj *model.Rfqs) (ret graphql.Marshaler) {
+func (ec *executionContext) _Rfq_TaxBasis(ctx context.Context, field graphql.CollectedField, obj *model.Rfq) (ret graphql.Marshaler) {
 	defer func() {
 		if r := recover(); r != nil {
 			ec.Error(ctx, ec.Recover(ctx, r))
@@ -1504,7 +1574,7 @@ func (ec *executionContext) _Rfqs_TaxBasis(ctx context.Context, field graphql.Co
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "Rfqs",
+		Object:   "Rfq",
 		Field:    field,
 		Args:     nil,
 		IsMethod: false,
@@ -1530,7 +1600,7 @@ func (ec *executionContext) _Rfqs_TaxBasis(ctx context.Context, field graphql.Co
 	return ec.marshalNFloat2float64(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) _Rfqs_Ppn(ctx context.Context, field graphql.CollectedField, obj *model.Rfqs) (ret graphql.Marshaler) {
+func (ec *executionContext) _Rfq_Ppn(ctx context.Context, field graphql.CollectedField, obj *model.Rfq) (ret graphql.Marshaler) {
 	defer func() {
 		if r := recover(); r != nil {
 			ec.Error(ctx, ec.Recover(ctx, r))
@@ -1538,7 +1608,7 @@ func (ec *executionContext) _Rfqs_Ppn(ctx context.Context, field graphql.Collect
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "Rfqs",
+		Object:   "Rfq",
 		Field:    field,
 		Args:     nil,
 		IsMethod: false,
@@ -1564,7 +1634,7 @@ func (ec *executionContext) _Rfqs_Ppn(ctx context.Context, field graphql.Collect
 	return ec.marshalNFloat2float64(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) _Rfqs_Pph(ctx context.Context, field graphql.CollectedField, obj *model.Rfqs) (ret graphql.Marshaler) {
+func (ec *executionContext) _Rfq_Pph(ctx context.Context, field graphql.CollectedField, obj *model.Rfq) (ret graphql.Marshaler) {
 	defer func() {
 		if r := recover(); r != nil {
 			ec.Error(ctx, ec.Recover(ctx, r))
@@ -1572,7 +1642,7 @@ func (ec *executionContext) _Rfqs_Pph(ctx context.Context, field graphql.Collect
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "Rfqs",
+		Object:   "Rfq",
 		Field:    field,
 		Args:     nil,
 		IsMethod: false,
@@ -1598,7 +1668,7 @@ func (ec *executionContext) _Rfqs_Pph(ctx context.Context, field graphql.Collect
 	return ec.marshalNFloat2float64(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) _Rfqs_Rounding(ctx context.Context, field graphql.CollectedField, obj *model.Rfqs) (ret graphql.Marshaler) {
+func (ec *executionContext) _Rfq_Rounding(ctx context.Context, field graphql.CollectedField, obj *model.Rfq) (ret graphql.Marshaler) {
 	defer func() {
 		if r := recover(); r != nil {
 			ec.Error(ctx, ec.Recover(ctx, r))
@@ -1606,7 +1676,7 @@ func (ec *executionContext) _Rfqs_Rounding(ctx context.Context, field graphql.Co
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "Rfqs",
+		Object:   "Rfq",
 		Field:    field,
 		Args:     nil,
 		IsMethod: false,
@@ -1632,7 +1702,7 @@ func (ec *executionContext) _Rfqs_Rounding(ctx context.Context, field graphql.Co
 	return ec.marshalNFloat2float64(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) _Rfqs_GrandTotal(ctx context.Context, field graphql.CollectedField, obj *model.Rfqs) (ret graphql.Marshaler) {
+func (ec *executionContext) _Rfq_GrandTotal(ctx context.Context, field graphql.CollectedField, obj *model.Rfq) (ret graphql.Marshaler) {
 	defer func() {
 		if r := recover(); r != nil {
 			ec.Error(ctx, ec.Recover(ctx, r))
@@ -1640,7 +1710,7 @@ func (ec *executionContext) _Rfqs_GrandTotal(ctx context.Context, field graphql.
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "Rfqs",
+		Object:   "Rfq",
 		Field:    field,
 		Args:     nil,
 		IsMethod: false,
@@ -1666,7 +1736,7 @@ func (ec *executionContext) _Rfqs_GrandTotal(ctx context.Context, field graphql.
 	return ec.marshalNFloat2float64(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) _Rfqs_Status(ctx context.Context, field graphql.CollectedField, obj *model.Rfqs) (ret graphql.Marshaler) {
+func (ec *executionContext) _Rfq_Status(ctx context.Context, field graphql.CollectedField, obj *model.Rfq) (ret graphql.Marshaler) {
 	defer func() {
 		if r := recover(); r != nil {
 			ec.Error(ctx, ec.Recover(ctx, r))
@@ -1674,7 +1744,7 @@ func (ec *executionContext) _Rfqs_Status(ctx context.Context, field graphql.Coll
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "Rfqs",
+		Object:   "Rfq",
 		Field:    field,
 		Args:     nil,
 		IsMethod: false,
@@ -1700,7 +1770,7 @@ func (ec *executionContext) _Rfqs_Status(ctx context.Context, field graphql.Coll
 	return ec.marshalNInt2int(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) _Rfqs_StatusReason(ctx context.Context, field graphql.CollectedField, obj *model.Rfqs) (ret graphql.Marshaler) {
+func (ec *executionContext) _Rfq_StatusReason(ctx context.Context, field graphql.CollectedField, obj *model.Rfq) (ret graphql.Marshaler) {
 	defer func() {
 		if r := recover(); r != nil {
 			ec.Error(ctx, ec.Recover(ctx, r))
@@ -1708,7 +1778,7 @@ func (ec *executionContext) _Rfqs_StatusReason(ctx context.Context, field graphq
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "Rfqs",
+		Object:   "Rfq",
 		Field:    field,
 		Args:     nil,
 		IsMethod: false,
@@ -1734,7 +1804,7 @@ func (ec *executionContext) _Rfqs_StatusReason(ctx context.Context, field graphq
 	return ec.marshalNString2string(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) _Rfqs_ExpiredAt(ctx context.Context, field graphql.CollectedField, obj *model.Rfqs) (ret graphql.Marshaler) {
+func (ec *executionContext) _Rfq_ExpiredAt(ctx context.Context, field graphql.CollectedField, obj *model.Rfq) (ret graphql.Marshaler) {
 	defer func() {
 		if r := recover(); r != nil {
 			ec.Error(ctx, ec.Recover(ctx, r))
@@ -1742,7 +1812,7 @@ func (ec *executionContext) _Rfqs_ExpiredAt(ctx context.Context, field graphql.C
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "Rfqs",
+		Object:   "Rfq",
 		Field:    field,
 		Args:     nil,
 		IsMethod: false,
@@ -1765,7 +1835,7 @@ func (ec *executionContext) _Rfqs_ExpiredAt(ctx context.Context, field graphql.C
 	return ec.marshalOTime2ᚖtimeᚐTime(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) _Rfqs_CreatedAt(ctx context.Context, field graphql.CollectedField, obj *model.Rfqs) (ret graphql.Marshaler) {
+func (ec *executionContext) _Rfq_CreatedAt(ctx context.Context, field graphql.CollectedField, obj *model.Rfq) (ret graphql.Marshaler) {
 	defer func() {
 		if r := recover(); r != nil {
 			ec.Error(ctx, ec.Recover(ctx, r))
@@ -1773,7 +1843,7 @@ func (ec *executionContext) _Rfqs_CreatedAt(ctx context.Context, field graphql.C
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "Rfqs",
+		Object:   "Rfq",
 		Field:    field,
 		Args:     nil,
 		IsMethod: false,
@@ -1796,7 +1866,7 @@ func (ec *executionContext) _Rfqs_CreatedAt(ctx context.Context, field graphql.C
 	return ec.marshalOTime2ᚖtimeᚐTime(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) _Rfqs_UpdatedAt(ctx context.Context, field graphql.CollectedField, obj *model.Rfqs) (ret graphql.Marshaler) {
+func (ec *executionContext) _Rfq_UpdatedAt(ctx context.Context, field graphql.CollectedField, obj *model.Rfq) (ret graphql.Marshaler) {
 	defer func() {
 		if r := recover(); r != nil {
 			ec.Error(ctx, ec.Recover(ctx, r))
@@ -1804,7 +1874,7 @@ func (ec *executionContext) _Rfqs_UpdatedAt(ctx context.Context, field graphql.C
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "Rfqs",
+		Object:   "Rfq",
 		Field:    field,
 		Args:     nil,
 		IsMethod: false,
@@ -1827,7 +1897,7 @@ func (ec *executionContext) _Rfqs_UpdatedAt(ctx context.Context, field graphql.C
 	return ec.marshalOTime2ᚖtimeᚐTime(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) _Rfqs_DeletedAt(ctx context.Context, field graphql.CollectedField, obj *model.Rfqs) (ret graphql.Marshaler) {
+func (ec *executionContext) _Rfq_DeletedAt(ctx context.Context, field graphql.CollectedField, obj *model.Rfq) (ret graphql.Marshaler) {
 	defer func() {
 		if r := recover(); r != nil {
 			ec.Error(ctx, ec.Recover(ctx, r))
@@ -1835,7 +1905,7 @@ func (ec *executionContext) _Rfqs_DeletedAt(ctx context.Context, field graphql.C
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:   "Rfqs",
+		Object:   "Rfq",
 		Field:    field,
 		Args:     nil,
 		IsMethod: false,
@@ -2460,9 +2530,9 @@ func (ec *executionContext) _Users_Rfqs(ctx context.Context, field graphql.Colle
 		}
 		return graphql.Null
 	}
-	res := resTmp.([]*model.Rfqs)
+	res := resTmp.([]*model.Rfq)
 	fc.Result = res
-	return ec.marshalNRfqs2ᚕᚖgithubᚗcomᚋmbizmarketᚋdmpᚋgraphqlᚋgraphᚋmodelᚐRfqsᚄ(ctx, field.Selections, res)
+	return ec.marshalNRfq2ᚕᚖgithubᚗcomᚋmbizmarketᚋdmpᚋgraphqlᚋgraphᚋmodelᚐRfqᚄ(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) __Service_sdl(ctx context.Context, field graphql.CollectedField, obj *fedruntime.Service) (ret graphql.Marshaler) {
@@ -3559,6 +3629,13 @@ func (ec *executionContext) __Entity(ctx context.Context, sel ast.SelectionSet, 
 	switch obj := (obj).(type) {
 	case nil:
 		return graphql.Null
+	case model.Rfq:
+		return ec._Rfq(ctx, sel, &obj)
+	case *model.Rfq:
+		if obj == nil {
+			return graphql.Null
+		}
+		return ec._Rfq(ctx, sel, obj)
 	case model.Users:
 		return ec._Users(ctx, sel, &obj)
 	case *model.Users:
@@ -3590,6 +3667,20 @@ func (ec *executionContext) _Entity(ctx context.Context, sel ast.SelectionSet) g
 		switch field.Name {
 		case "__typename":
 			out.Values[i] = graphql.MarshalString("Entity")
+		case "findRfqByID":
+			field := field
+			out.Concurrently(i, func() (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._Entity_findRfqByID(ctx, field)
+				if res == graphql.Null {
+					atomic.AddUint32(&invalids, 1)
+				}
+				return res
+			})
 		case "findUsersByID":
 			field := field
 			out.Concurrently(i, func() (res graphql.Marshaler) {
@@ -3726,125 +3817,125 @@ func (ec *executionContext) _Query(ctx context.Context, sel ast.SelectionSet) gr
 	return out
 }
 
-var rfqsImplementors = []string{"Rfqs"}
+var rfqImplementors = []string{"Rfq", "_Entity"}
 
-func (ec *executionContext) _Rfqs(ctx context.Context, sel ast.SelectionSet, obj *model.Rfqs) graphql.Marshaler {
-	fields := graphql.CollectFields(ec.OperationContext, sel, rfqsImplementors)
+func (ec *executionContext) _Rfq(ctx context.Context, sel ast.SelectionSet, obj *model.Rfq) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, rfqImplementors)
 
 	out := graphql.NewFieldSet(fields)
 	var invalids uint32
 	for i, field := range fields {
 		switch field.Name {
 		case "__typename":
-			out.Values[i] = graphql.MarshalString("Rfqs")
+			out.Values[i] = graphql.MarshalString("Rfq")
 		case "ID":
-			out.Values[i] = ec._Rfqs_ID(ctx, field, obj)
+			out.Values[i] = ec._Rfq_ID(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
 				invalids++
 			}
 		case "TransactionID":
-			out.Values[i] = ec._Rfqs_TransactionID(ctx, field, obj)
+			out.Values[i] = ec._Rfq_TransactionID(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
 				invalids++
 			}
 		case "RequestedBy":
-			out.Values[i] = ec._Rfqs_RequestedBy(ctx, field, obj)
+			out.Values[i] = ec._Rfq_RequestedBy(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
 				invalids++
 			}
 		case "CreatedBy":
-			out.Values[i] = ec._Rfqs_CreatedBy(ctx, field, obj)
+			out.Values[i] = ec._Rfq_CreatedBy(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
 				invalids++
 			}
 		case "PaymentType":
-			out.Values[i] = ec._Rfqs_PaymentType(ctx, field, obj)
+			out.Values[i] = ec._Rfq_PaymentType(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
 				invalids++
 			}
 		case "PaymentDuration":
-			out.Values[i] = ec._Rfqs_PaymentDuration(ctx, field, obj)
+			out.Values[i] = ec._Rfq_PaymentDuration(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
 				invalids++
 			}
 		case "CompanyBuyerID":
-			out.Values[i] = ec._Rfqs_CompanyBuyerID(ctx, field, obj)
+			out.Values[i] = ec._Rfq_CompanyBuyerID(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
 				invalids++
 			}
 		case "CompanySellerID":
-			out.Values[i] = ec._Rfqs_CompanySellerID(ctx, field, obj)
+			out.Values[i] = ec._Rfq_CompanySellerID(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
 				invalids++
 			}
 		case "RfqNo":
-			out.Values[i] = ec._Rfqs_RfqNo(ctx, field, obj)
+			out.Values[i] = ec._Rfq_RfqNo(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
 				invalids++
 			}
 		case "ReferenceNo":
-			out.Values[i] = ec._Rfqs_ReferenceNo(ctx, field, obj)
+			out.Values[i] = ec._Rfq_ReferenceNo(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
 				invalids++
 			}
 		case "Notes":
-			out.Values[i] = ec._Rfqs_Notes(ctx, field, obj)
+			out.Values[i] = ec._Rfq_Notes(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
 				invalids++
 			}
 		case "NoteForSeller":
-			out.Values[i] = ec._Rfqs_NoteForSeller(ctx, field, obj)
+			out.Values[i] = ec._Rfq_NoteForSeller(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
 				invalids++
 			}
 		case "SubTotal":
-			out.Values[i] = ec._Rfqs_SubTotal(ctx, field, obj)
+			out.Values[i] = ec._Rfq_SubTotal(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
 				invalids++
 			}
 		case "TaxBasis":
-			out.Values[i] = ec._Rfqs_TaxBasis(ctx, field, obj)
+			out.Values[i] = ec._Rfq_TaxBasis(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
 				invalids++
 			}
 		case "Ppn":
-			out.Values[i] = ec._Rfqs_Ppn(ctx, field, obj)
+			out.Values[i] = ec._Rfq_Ppn(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
 				invalids++
 			}
 		case "Pph":
-			out.Values[i] = ec._Rfqs_Pph(ctx, field, obj)
+			out.Values[i] = ec._Rfq_Pph(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
 				invalids++
 			}
 		case "Rounding":
-			out.Values[i] = ec._Rfqs_Rounding(ctx, field, obj)
+			out.Values[i] = ec._Rfq_Rounding(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
 				invalids++
 			}
 		case "GrandTotal":
-			out.Values[i] = ec._Rfqs_GrandTotal(ctx, field, obj)
+			out.Values[i] = ec._Rfq_GrandTotal(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
 				invalids++
 			}
 		case "Status":
-			out.Values[i] = ec._Rfqs_Status(ctx, field, obj)
+			out.Values[i] = ec._Rfq_Status(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
 				invalids++
 			}
 		case "StatusReason":
-			out.Values[i] = ec._Rfqs_StatusReason(ctx, field, obj)
+			out.Values[i] = ec._Rfq_StatusReason(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
 				invalids++
 			}
 		case "ExpiredAt":
-			out.Values[i] = ec._Rfqs_ExpiredAt(ctx, field, obj)
+			out.Values[i] = ec._Rfq_ExpiredAt(ctx, field, obj)
 		case "CreatedAt":
-			out.Values[i] = ec._Rfqs_CreatedAt(ctx, field, obj)
+			out.Values[i] = ec._Rfq_CreatedAt(ctx, field, obj)
 		case "UpdatedAt":
-			out.Values[i] = ec._Rfqs_UpdatedAt(ctx, field, obj)
+			out.Values[i] = ec._Rfq_UpdatedAt(ctx, field, obj)
 		case "DeletedAt":
-			out.Values[i] = ec._Rfqs_DeletedAt(ctx, field, obj)
+			out.Values[i] = ec._Rfq_DeletedAt(ctx, field, obj)
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
 		}
@@ -4245,11 +4336,11 @@ func (ec *executionContext) marshalNInt2int(ctx context.Context, sel ast.Selecti
 	return res
 }
 
-func (ec *executionContext) marshalNRfqs2githubᚗcomᚋmbizmarketᚋdmpᚋgraphqlᚋgraphᚋmodelᚐRfqs(ctx context.Context, sel ast.SelectionSet, v model.Rfqs) graphql.Marshaler {
-	return ec._Rfqs(ctx, sel, &v)
+func (ec *executionContext) marshalNRfq2githubᚗcomᚋmbizmarketᚋdmpᚋgraphqlᚋgraphᚋmodelᚐRfq(ctx context.Context, sel ast.SelectionSet, v model.Rfq) graphql.Marshaler {
+	return ec._Rfq(ctx, sel, &v)
 }
 
-func (ec *executionContext) marshalNRfqs2ᚕᚖgithubᚗcomᚋmbizmarketᚋdmpᚋgraphqlᚋgraphᚋmodelᚐRfqsᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.Rfqs) graphql.Marshaler {
+func (ec *executionContext) marshalNRfq2ᚕᚖgithubᚗcomᚋmbizmarketᚋdmpᚋgraphqlᚋgraphᚋmodelᚐRfqᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.Rfq) graphql.Marshaler {
 	ret := make(graphql.Array, len(v))
 	var wg sync.WaitGroup
 	isLen1 := len(v) == 1
@@ -4273,7 +4364,7 @@ func (ec *executionContext) marshalNRfqs2ᚕᚖgithubᚗcomᚋmbizmarketᚋdmp�
 			if !isLen1 {
 				defer wg.Done()
 			}
-			ret[i] = ec.marshalNRfqs2ᚖgithubᚗcomᚋmbizmarketᚋdmpᚋgraphqlᚋgraphᚋmodelᚐRfqs(ctx, sel, v[i])
+			ret[i] = ec.marshalNRfq2ᚖgithubᚗcomᚋmbizmarketᚋdmpᚋgraphqlᚋgraphᚋmodelᚐRfq(ctx, sel, v[i])
 		}
 		if isLen1 {
 			f(i)
@@ -4286,14 +4377,14 @@ func (ec *executionContext) marshalNRfqs2ᚕᚖgithubᚗcomᚋmbizmarketᚋdmp�
 	return ret
 }
 
-func (ec *executionContext) marshalNRfqs2ᚖgithubᚗcomᚋmbizmarketᚋdmpᚋgraphqlᚋgraphᚋmodelᚐRfqs(ctx context.Context, sel ast.SelectionSet, v *model.Rfqs) graphql.Marshaler {
+func (ec *executionContext) marshalNRfq2ᚖgithubᚗcomᚋmbizmarketᚋdmpᚋgraphqlᚋgraphᚋmodelᚐRfq(ctx context.Context, sel ast.SelectionSet, v *model.Rfq) graphql.Marshaler {
 	if v == nil {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
 			ec.Errorf(ctx, "must not be null")
 		}
 		return graphql.Null
 	}
-	return ec._Rfqs(ctx, sel, v)
+	return ec._Rfq(ctx, sel, v)
 }
 
 func (ec *executionContext) unmarshalNString2string(ctx context.Context, v interface{}) (string, error) {

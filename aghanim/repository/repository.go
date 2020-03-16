@@ -9,7 +9,7 @@ import (
 	"github.com/jinzhu/copier"
 	"github.com/jinzhu/gorm"
 	"github.com/mbizmarket/dmp/aghanim/models"
-	"github.com/mbizmarket/dmp/aghanim/proto/rfqs/pb"
+	pb "github.com/mbizmarket/dmp/aghanim/proto/pb/rfqs"
 )
 
 //Service --

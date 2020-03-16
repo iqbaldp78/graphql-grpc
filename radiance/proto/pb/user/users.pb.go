@@ -9,8 +9,8 @@ import (
 	any "github.com/golang/protobuf/ptypes/any"
 	_ "github.com/golang/protobuf/ptypes/empty"
 	timestamp "github.com/golang/protobuf/ptypes/timestamp"
-	math "math"
 	rfqs "github.com/mbizmarket/dmp/radiance/proto/pb/rfqs"
+	math "math"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.

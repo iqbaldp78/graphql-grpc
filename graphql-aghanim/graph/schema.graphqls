@@ -3,7 +3,7 @@
 # https://gqlgen.com/getting-started/
 scalar Time 
 
-type Rfqs @key(fields: "ID"){
+type Rfqs {
   ID: Int!
   TransactionID: Int!
   RequestedBy: Int!
@@ -35,7 +35,7 @@ type Rfqs @key(fields: "ID"){
 	DeletedAt: Time 
 }
 
-type Query {
+extend type Query {
   getRfqByCompany(CompanyID: Int): [Rfqs!]!
 }
 

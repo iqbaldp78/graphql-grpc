@@ -6,7 +6,7 @@ import (
 	"time"
 )
 
-type Rfqs struct {
+type Rfq struct {
 	ID              int        `json:"ID"`
 	TransactionID   int        `json:"TransactionID"`
 	RequestedBy     int        `json:"RequestedBy"`
@@ -33,6 +33,8 @@ type Rfqs struct {
 	DeletedAt       *time.Time `json:"DeletedAt"`
 }
 
+func (Rfq) IsEntity() {}
+
 type Users struct {
 	ID                   int        `json:"id"`
 	CompanyID            int        `json:"CompanyID"`
@@ -52,7 +54,7 @@ type Users struct {
 	IsNotifPaymentReturn *int       `json:"IsNotifPaymentReturn"`
 	Campaign             *int       `json:"Campaign"`
 	IDToken              *string    `json:"IDToken"`
-	Rfqs                 []*Rfqs    `json:"Rfqs"`
+	Rfqs                 []*Rfq     `json:"Rfqs"`
 }
 
 func (Users) IsEntity() {}

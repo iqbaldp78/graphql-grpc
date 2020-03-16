@@ -22,10 +22,10 @@ type Users @key(fields: "id"){
 	IsNotifPaymentReturn: Int
 	Campaign: Int
 	IDToken: String
-	Rfqs : [Rfqs!]!
+	Rfqs : [Rfq!]!
 }
 
-type Rfqs {
+type Rfq @key(fields: "ID"){
 	ID: Int!
 	TransactionID: Int!
 	RequestedBy: Int!

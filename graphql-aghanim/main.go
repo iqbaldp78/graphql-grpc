@@ -9,7 +9,7 @@ import (
 
 	"github.com/mbizmarket/dmp/graphql-aghanim/graph"
 	"github.com/mbizmarket/dmp/graphql-aghanim/graph/generated"
-	"github.com/mbizmarket/dmp/graphql-aghanim/proto/rfqs/pb"
+	pb"github.com/mbizmarket/dmp/graphql-aghanim/proto/pb/rfqs"
 )
 
 func main() {

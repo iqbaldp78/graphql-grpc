@@ -32,5 +32,3 @@ type Rfqs struct {
 	UpdatedAt       *time.Time `json:"UpdatedAt"`
 	DeletedAt       *time.Time `json:"DeletedAt"`
 }
-
-func (Rfqs) IsEntity() {}

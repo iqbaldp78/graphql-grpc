@@ -84,9 +84,9 @@ func (r *queryResolver) GetUserNRfqs(ctx context.Context) ([]*model.Users, error
 			UpdatedAt:            helper.TimestampProtoToPointerTime(v.UpdatedAt),
 		}
 
-		var outputRfqs []*model.Rfqs
+		var outputRfqs []*model.Rfq
 		for _, val := range rfqs.Data {
-			tempRfqs := &model.Rfqs{
+			tempRfqs := &model.Rfq{
 				ID:              int(val.ID),
 				TransactionID:   int(val.TransactionId),
 				RequestedBy:     int(val.RequestedBy),

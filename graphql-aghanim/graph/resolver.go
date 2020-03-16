@@ -1,6 +1,6 @@
 package graph
 
-import "github.com/mbizmarket/dmp/graphql-aghanim/proto/rfqs/pb"
+import pb"github.com/mbizmarket/dmp/graphql-aghanim/proto/pb/rfqs"
 
 // This file will not be regenerated automatically.
 //
